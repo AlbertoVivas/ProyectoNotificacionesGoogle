@@ -1,5 +1,7 @@
 package com.example.proyecytonotificacionesgoogle;
 
+import java.io.IOException;
+
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 import android.app.Activity;
@@ -98,17 +100,10 @@ public class MainActivity extends Activity {
 					storeRegistrationId();
 					
 					
-				} catch (Exception e) {
-					// TODO: handle exception
+				} catch (IOException ex) {
+					msg = "Error: "+ex.getMessage();
+					Log.d("RegisterActivity", "Error: "+msg);
 				}
-				
-				
-				
-				
-				
-				
-				
-				
 				Log.d("RegisterActivity", "AsynTask completed:");
 				return msg;
 			}
@@ -127,8 +122,10 @@ public class MainActivity extends Activity {
 
 	
 	protected void storeRegistrationId() {
-		// TODO Auto-generated method stub
-		
+		SharedPreferences prefs = getSharedPreferences(MainActivity.class.getSimpleName(),Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = prefs.edit();
+		editor.putString("REG_ID", regId);
+		editor.commit();
 	}
 
 	private String getRegistrationId(Context context){
